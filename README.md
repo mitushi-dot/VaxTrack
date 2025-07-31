@@ -17,6 +17,7 @@ Add Vaccination: Provides a button to add new vaccination records.
 Reset Data: Offers an option to clear all stored vaccination data.
 
 Responsive Design: Ensures optimal viewing and interaction across various devices and screen sizes.
+
 🚀 Technologies Used
 HTML: For structuring the web content.
 
