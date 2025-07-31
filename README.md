@@ -4,48 +4,19 @@
 VaxTrack is a personal vaccination tracking application built with pure HTML, CSS, and JavaScript. It provides a professional, minimal dashboard for individuals to track their vaccination status, including completed, pending, and upcoming vaccinations. The application uses browser localStorage for data persistence and features a responsive web interface with a clean black and white design theme.
 
 ✨ Features
-Dashboard Overview: Get a quick glance at your vaccination status with clear counts for:
+Dashboard Overview: Displays summary counts for Completed, Pending, Upcoming, and Total vaccination records.
 
-Completed vaccinations
+Search Functionality: Allows users to search for specific vaccination records.
 
-Pending vaccinations
+Filter Options: Enables filtering of records by status: All, Completed, Pending, and Upcoming.
 
-Upcoming vaccinations
+Detailed Vaccination Cards: Shows individual vaccination details including status, name, type, date, and notes.
 
-Total Records
+Add Vaccination: Provides a button to add new vaccination records.
 
-Search Functionality: Easily find specific vaccination records using the search bar.
+Reset Data: Offers an option to clear all stored vaccination data.
 
-Filter Options: Filter your vaccination list by status:
-
-All
-
-Completed
-
-Pending
-
-Upcoming
-
-Detailed Vaccination Cards: Each vaccination record is displayed as a card, providing:
-
-Status (Completed, Pending, Upcoming)
-
-Vaccine Name (e.g., COVID-19 Vaccine, Polio Vaccine)
-
-Type (e.g., COVID-19, Varicella, Tetanus)
-
-Date (Date of administration or scheduling)
-
-Notes (e.g., "First dose completed," "Booster dose," "Scheduled at local clinic")
-
-Add New Vaccinations: Quickly add new vaccination records using the "Add Vaccination" button.
-
-Reset Data: Convenient option to clear all stored vaccination data (for demo/testing purposes).
-
-Responsive Design: A clean and user-friendly interface that adapts to various screen sizes.
-
-Footer Information: Includes copyright, contact details, and quick links to privacy policy, terms of service, and help/support.
-
+Responsive Design: Ensures optimal viewing and interaction across various devices and screen sizes.
 🚀 Technologies Used
 HTML: For structuring the web content.
 
