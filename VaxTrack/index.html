@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VaxTrack - Personal Vaccination Dashboard</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Feather Icons -->
+    <script src="https://unpkg.com/feather-icons"></script>
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="#">
+                <i data-feather="shield" class="me-2"></i>
+                VaxTrack
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <i data-feather="home" class="me-1"></i>
+                            Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="vaxTrackApp.clearAllData()">
+                            <i data-feather="refresh-cw" class="me-1"></i>
+                            Reset Data
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container-fluid mt-5 pt-4">
+        <!-- Alert Container -->
+        <div id="alertContainer"></div>
+
+        <div class="dashboard-container">
+            <!-- Dashboard Header -->
+            <div class="row mb-4">
+                <div class="col-12">
+                    <div class="dashboard-header">
+                        <h1 class="display-5 fw-bold mb-3">
+                            <i data-feather="activity" class="me-3"></i>
+                            Vaccination Dashboard
+                        </h1>
+                        <p class="lead">Track your vaccination journey with precision and clarity</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Statistics Cards -->
+            <div class="row mb-4">
+                <div class="col-md-3 col-sm-6 mb-3">
+                    <div class="stat-card stat-card-completed">
+                        <div class="stat-icon">
+                            <i data-feather="check-circle"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 id="completedCount">0</h3>
+                            <p>Completed</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 mb-3">
+                    <div class="stat-card stat-card-pending">
+                        <div class="stat-icon">
+                            <i data-feather="clock"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 id="pendingCount">0</h3>
+                            <p>Pending</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 mb-3">
+                    <div class="stat-card stat-card-upcoming">
+                        <div class="stat-icon">
+                            <i data-feather="calendar"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 id="upcomingCount">0</h3>
+                            <p>Upcoming</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 mb-3">
+                    <div class="stat-card stat-card-total">
+                        <div class="stat-icon">
+                            <i data-feather="list"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 id="totalCount">0</h3>
+                            <p>Total Records</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Actions and Search -->
+            <div class="row mb-4">
+                <div class="col-lg-6 col-md-8 mb-3">
+                    <div class="search-container">
+                        <input type="text" id="searchInput" class="form-control" placeholder="Search vaccinations...">
+                        <i data-feather="search" class="search-icon"></i>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-4 mb-3 text-md-end">
+                    <button class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#addVaccinationModal">
+                        <i data-feather="plus" class="me-2"></i>
+                        Add Vaccination
+                    </button>
+                </div>
+            </div>
+
+            <!-- Filter Buttons -->
+            <div class="row mb-4">
+                <div class="col-12">
+                    <div class="filter-buttons">
+                        <button class="btn btn-outline-light active" data-filter="all">All</button>
+                        <button class="btn btn-outline-light" data-filter="completed">Completed</button>
+                        <button class="btn btn-outline-light" data-filter="pending">Pending</button>
+                        <button class="btn btn-outline-light" data-filter="upcoming">Upcoming</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Vaccination Cards -->
+            <div class="row" id="vaccinationCards">
+                <!-- Empty state initially -->
+                <div class="col-12" id="emptyState">
+                    <div class="empty-state">
+                        <i data-feather="clipboard" class="empty-icon"></i>
+                        <h3>No Vaccination Records</h3>
+                        <p>Start tracking your vaccinations by adding your first record.</p>
+                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addVaccinationModal">
+                            <i data-feather="plus" class="me-2"></i>
+                            Add Your First Vaccination
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Add Vaccination Modal -->
+    <div class="modal fade" id="addVaccinationModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <i data-feather="plus-circle" class="me-2"></i>
+                        Add Vaccination Record
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <form id="addVaccinationForm">
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="vaccinationName" class="form-label">Vaccination Name *</label>
+                            <input type="text" class="form-control" id="vaccinationName" name="name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="vaccinationType" class="form-label">Type *</label>
+                            <select class="form-select" id="vaccinationType" name="type" required>
+                                <option value="">Select vaccination type</option>
+                                <option value="COVID-19">COVID-19</option>
+                                <option value="Influenza">Influenza (Flu)</option>
+                                <option value="Hepatitis A">Hepatitis A</option>
+                                <option value="Hepatitis B">Hepatitis B</option>
+                                <option value="MMR">MMR (Measles, Mumps, Rubella)</option>
+                                <option value="Tetanus">Tetanus</option>
+                                <option value="Varicella">Varicella (Chickenpox)</option>
+                                <option value="HPV">HPV</option>
+                                <option value="Pneumococcal">Pneumococcal</option>
+                                <option value="Meningococcal">Meningococcal</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="vaccinationDate" class="form-label">Date *</label>
+                            <input type="date" class="form-control" id="vaccinationDate" name="date" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="vaccinationStatus" class="form-label">Status *</label>
+                            <select class="form-select" id="vaccinationStatus" name="status" required>
+                                <option value="pending">Pending</option>
+                                <option value="completed">Completed</option>
+                                <option value="upcoming">Upcoming</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="vaccinationNotes" class="form-label">Notes</label>
+                            <textarea class="form-control" id="vaccinationNotes" name="notes" rows="3" placeholder="Additional notes or comments..."></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Add Vaccination</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Vaccination Modal -->
+    <div class="modal fade" id="editVaccinationModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <i data-feather="edit-2" class="me-2"></i>
+                        Edit Vaccination Record
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <form id="editVaccinationForm">
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="editVaccinationName" class="form-label">Vaccination Name *</label>
+                            <input type="text" class="form-control" id="editVaccinationName" name="name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editVaccinationType" class="form-label">Type *</label>
+                            <select class="form-select" id="editVaccinationType" name="type" required>
+                                <option value="">Select vaccination type</option>
+                                <option value="COVID-19">COVID-19</option>
+                                <option value="Influenza">Influenza (Flu)</option>
+                                <option value="Hepatitis A">Hepatitis A</option>
+                                <option value="Hepatitis B">Hepatitis B</option>
+                                <option value="MMR">MMR (Measles, Mumps, Rubella)</option>
+                                <option value="Tetanus">Tetanus</option>
+                                <option value="Varicella">Varicella (Chickenpox)</option>
+                                <option value="HPV">HPV</option>
+                                <option value="Pneumococcal">Pneumococcal</option>
+                                <option value="Meningococcal">Meningococcal</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editVaccinationDate" class="form-label">Date *</label>
+                            <input type="date" class="form-control" id="editVaccinationDate" name="date" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editVaccinationStatus" class="form-label">Status *</label>
+                            <select class="form-select" id="editVaccinationStatus" name="status" required>
+                                <option value="pending">Pending</option>
+                                <option value="completed">Completed</option>
+                                <option value="upcoming">Upcoming</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editVaccinationNotes" class="form-label">Notes</label>
+                            <textarea class="form-control" id="editVaccinationNotes" name="notes" rows="3" placeholder="Additional notes or comments..."></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Update Vaccination</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <h5 class="footer-title">VaxTrack</h5>
+                    <p class="footer-description">
+                        Your personal vaccination tracking dashboard. Keep track of completed, pending, and upcoming vaccinations with ease.
+                    </p>
+                </div>
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <h5 class="footer-title">Contact Information</h5>
+                    <div class="contact-info">
+                        <div class="contact-item">
+                            <i data-feather="mail" class="contact-icon"></i>
+                            <span>support@vaxtrack.com</span>
+                        </div>
+                        <div class="contact-item">
+                            <i data-feather="phone" class="contact-icon"></i>
+                            <span>+1 (555) 123-4567</span>
+                        </div>
+                        <div class="contact-item">
+                            <i data-feather="map-pin" class="contact-icon"></i>
+                            <span>123 Health Street, Medical City, MC 12345</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-12 mb-4">
+                    <h5 class="footer-title">Quick Links</h5>
+                    <div class="footer-links">
+                        <a href="#" class="footer-link">
+                            <i data-feather="shield" class="me-2"></i>
+                            Privacy Policy
+                        </a>
+                        <a href="#" class="footer-link">
+                            <i data-feather="file-text" class="me-2"></i>
+                            Terms of Service
+                        </a>
+                        <a href="#" class="footer-link">
+                            <i data-feather="help-circle" class="me-2"></i>
+                            Help & Support
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <hr class="footer-divider">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <p class="footer-copyright">
+                        &copy; 2024 VaxTrack. All rights reserved. | Built with <i data-feather="heart" class="text-danger"></i> for better health tracking.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap 5 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Feather Icons -->
+    <script src="https://unpkg.com/feather-icons"></script>
+    
+    <!-- Custom JavaScript -->
+    <script src="script.js"></script>
+    
+    <!-- Initialize Feather Icons -->
+    <script>
+        // Clear localStorage to load fresh sample data with enlarged status badges
+        localStorage.removeItem('vaxtrack_vaccinations');
+        feather.replace();
+    </script>
+</body>
+</html>
