@@ -61,6 +61,8 @@ Updating dashboard statistics.
 
 Handling user interactions and UI updates.
 
-<img width="1440" height="900" alt="Screenshot 2025-07-31 at 5 42 48 PM" src="https://github.com/user-attachments/assets/a9b436fb-5c6f-4190-9ea6-366e026eac44" />
-<img width="1440" height="900" alt="Screenshot 2025-07-31 at 5 42 41 PM" src="https://github.com/user-attachments/assets/7fe64f88-fcb8-4676-b2b9-dac50e07d2a4" />
 <img width="1440" height="900" alt="Screenshot 2025-07-31 at 5 42 33 PM" src="https://github.com/user-attachments/assets/9a84aa13-ad6b-4d69-966a-89c643a8d6b4" />
+<img width="1440" height="900" alt="Screenshot 2025-07-31 at 5 42 41 PM" src="https://github.com/user-attachments/assets/7fe64f88-fcb8-4676-b2b9-dac50e07d2a4" />
+<img width="1440" height="900" alt="Screenshot 2025-07-31 at 5 42 48 PM" src="https://github.com/user-attachments/assets/a9b436fb-5c6f-4190-9ea6-366e026eac44" />
+
+
